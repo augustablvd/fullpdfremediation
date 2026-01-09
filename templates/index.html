@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Accessibility Tagger</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF Accessibility Tagger</h1>
+            <p class="subtitle">Upload PDFs and create fully accessible, tagged versions</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <h2>Drop PDF files here or click to browse</h2>
+                    <p>Single file or batch upload supported (max 50 files)</p>
+                    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+                    <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
+                        Browse Files
+                    </button>
+                </div>
+
+                <div id="fileList" class="file-list hidden"></div>
+
+                <div class="action-buttons hidden" id="actionButtons">
+                    <button class="btn btn-primary" id="uploadBtn">
+                        Process PDFs
+                    </button>
+                    <button class="btn btn-secondary" id="clearBtn">
+                        Clear All
+                    </button>
+                </div>
+            </section>
+
+            <section class="progress-section hidden" id="progressSection">
+                <h3>Processing...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">Uploading files...</p>
+            </section>
+
+            <section class="results-section hidden" id="resultsSection">
+                <h3>Processing Complete</h3>
+                <div class="results-summary" id="resultsSummary"></div>
+                <div class="results-list" id="resultsList"></div>
+                <div class="results-actions">
+                    <button class="btn btn-primary" id="downloadAllBtn">
+                        Download All as ZIP
+                    </button>
+                    <button class="btn btn-secondary" id="newBatchBtn">
+                        Process New Files
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Creates accessible PDFs with proper structure tags for screen readers</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
