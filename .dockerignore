@@ -1,0 +1,31 @@
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Temporary files
+uploads/*
+processed/*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (optional - remove if you want docs in image)
+README.md

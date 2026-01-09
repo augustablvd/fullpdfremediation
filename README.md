@@ -25,6 +25,87 @@ The application automatically adds the following accessibility features to PDFs:
 - ✓ Page structure elements
 - ✓ Logical reading order
 
+## Quick Deploy (Cloud Platforms)
+
+Deploy directly from GitHub to popular cloud platforms - **no local setup required!**
+
+### Option 1: Render (Recommended - Free Tier Available)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+1. Click the "Deploy to Render" button above (or go to [render.com](https://render.com))
+2. Sign in with your GitHub account
+3. Connect to your forked repository
+4. Click "Apply" to deploy
+5. Your app will be live in 2-3 minutes!
+
+**Free tier includes**: 750 hours/month, automatic HTTPS, auto-deploy on git push
+
+### Option 2: Railway (Easy Setup - Free Trial)
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
+
+1. Click "Deploy on Railway" or go to [railway.app](https://railway.app)
+2. Sign in with GitHub
+3. Select "Deploy from GitHub repo"
+4. Choose your repository: `fullpdfremediation`
+5. Click "Deploy Now"
+6. Railway will automatically detect and deploy your app
+
+**Free trial includes**: $5 credit, automatic deployments
+
+### Option 3: Heroku (Traditional Platform)
+
+1. Sign up at [heroku.com](https://heroku.com)
+2. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+3. Run these commands:
+
+```bash
+heroku login
+heroku create your-app-name
+git push heroku main
+heroku open
+```
+
+**Note**: Heroku ended free tier in 2022. Starts at $7/month.
+
+### Option 4: Google Cloud Run (Auto-scaling)
+
+```bash
+gcloud run deploy pdf-tagger \
+  --source . \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
+```
+
+**Free tier includes**: 2 million requests/month, 360,000 GB-seconds memory
+
+### Option 5: Docker (Any Platform)
+
+Build and run with Docker:
+
+```bash
+docker build -t pdf-tagger .
+docker run -p 8080:8080 pdf-tagger
+```
+
+Then push to any container registry (Docker Hub, GCR, ECR, etc.)
+
+### Environment Variables for Cloud Deployment
+
+Most platforms will auto-detect settings, but you can configure:
+
+- `PORT` - Port number (auto-set by most platforms)
+- `SECRET_KEY` - Flask secret key (auto-generated on Render)
+- `FLASK_DEBUG` - Set to `False` for production
+
+---
+
+## Local Installation (Optional)
+
+If you prefer to run locally instead of using cloud deployment:
+
 ## Requirements
 
 - Python 3.8 or higher
