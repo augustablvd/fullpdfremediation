@@ -620,8 +620,10 @@ def _add_page_to_tree(
 ) -> None:
     """Add all structure elements for one page under doc_elem."""
 
-    page_obj  = pdf.pages[layout.page_num]
-    page_ref  = pdf.make_indirect(page_obj) if not page_obj.is_indirect else page_obj
+    # pdf.pages[n] returns a pikepdf.Page which is always an indirect object;
+    # use it directly — calling make_indirect() on it would create a broken ref.
+    page_obj = pdf.pages[layout.page_num]
+    page_ref = page_obj
 
     # Mark page with its structure-parent index so PDF readers can
     # navigate from a page back into the structure tree.

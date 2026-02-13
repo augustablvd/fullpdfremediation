@@ -21,7 +21,15 @@ const downloadAllBtn = document.getElementById('downloadAllBtn');
 const newBatchBtn = document.getElementById('newBatchBtn');
 
 // Event Listeners
-uploadArea.addEventListener('click', () => fileInput.click());
+uploadArea.addEventListener('click', (e) => {
+    // Don't open a second dialog when the click came from the Browse button
+    if (e.target.closest('#browseBtn')) return;
+    fileInput.click();
+});
+document.getElementById('browseBtn').addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent the click bubbling up to uploadArea
+    fileInput.click();
+});
 uploadArea.addEventListener('dragover', handleDragOver);
 uploadArea.addEventListener('dragleave', handleDragLeave);
 uploadArea.addEventListener('drop', handleDrop);
