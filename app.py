@@ -10,6 +10,7 @@ import os
 import uuid
 from datetime import datetime
 import logging
+import requests as http_client
 
 from config import Config
 from pdf_tagger import PDFAccessibilityTagger, validate_pdf
@@ -37,6 +38,46 @@ def allowed_file(filename):
 def index():
     """Render main upload page"""
     return render_template('index.html')
+
+
+@app.route('/portfolio')
+def portfolio():
+    """Render brutalist portfolio page"""
+    return render_template('portfolio.html')
+
+
+@app.route('/api/visitor')
+def visitor_info():
+    """
+    Resolve visitor IP and look up geolocation + ASN data.
+    Used by the portfolio page for location display and
+    Allstate network detection.
+    """
+    forwarded = request.headers.get('X-Forwarded-For')
+    real_ip   = request.headers.get('X-Real-IP')
+
+    if forwarded:
+        ip = forwarded.split(',')[0].strip()
+    elif real_ip:
+        ip = real_ip.strip()
+    else:
+        ip = request.remote_addr or ''
+
+    # Strip IPv6-mapped IPv4 prefix
+    if ip.startswith('::ffff:'):
+        ip = ip[7:]
+
+    try:
+        resp = http_client.get(
+            f'http://ip-api.com/json/{ip}',
+            params={'fields': 'status,country,regionName,city,org,as,isp,query'},
+            timeout=5
+        )
+        data = resp.json()
+        return jsonify(data)
+    except Exception as e:
+        logger.warning(f"IP lookup failed for {ip}: {e}")
+        return jsonify({'status': 'fail', 'query': ip})
 
 
 @app.route('/api/upload', methods=['POST'])

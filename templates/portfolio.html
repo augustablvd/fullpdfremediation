@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PORTFOLIO.EXE</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
+</head>
+<body>
+
+  <!-- CRT Scanlines -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Boot Sequence Overlay -->
+  <div class="boot-overlay" id="bootOverlay" aria-hidden="true">
+    <div id="bootText"></div>
+  </div>
+
+  <!-- ───── NAVIGATION ───── -->
+  <nav class="p-nav" role="navigation" aria-label="Portfolio navigation">
+    <a href="#p-hero" class="p-nav-logo">PORTFOLIO.EXE</a>
+    <ul class="p-nav-links">
+      <li><a href="#p-about">ABOUT</a></li>
+      <li><a href="#p-work">WORK</a></li>
+      <li><a href="#p-skills">SKILLS</a></li>
+      <li><a href="#p-contact">CONTACT</a></li>
+      <li><a href="/">PDF TOOL</a></li>
+    </ul>
+    <div class="p-nav-status">
+      <div class="status-dot" aria-hidden="true"></div>
+      <span id="navStatus">CONNECTING...</span>
+    </div>
+  </nav>
+
+  <!-- ───── TICKER ───── -->
+  <div class="p-ticker" aria-hidden="true">
+    <div class="p-ticker-inner">
+      <span>AVAILABLE FOR HIRE</span>
+      <span>FULL-STACK ENGINEER</span>
+      <span>PYTHON &amp; JAVASCRIPT</span>
+      <span>PDF ACCESSIBILITY</span>
+      <span>WCAG 2.1 COMPLIANT</span>
+      <span>OPEN SOURCE</span>
+      <span>REMOTE FRIENDLY</span>
+      <span>UI / UX</span>
+      <span>BRUTALIST DESIGN</span>
+      <span>AVAILABLE FOR HIRE</span>
+      <span>FULL-STACK ENGINEER</span>
+      <span>PYTHON &amp; JAVASCRIPT</span>
+      <span>PDF ACCESSIBILITY</span>
+      <span>WCAG 2.1 COMPLIANT</span>
+      <span>OPEN SOURCE</span>
+      <span>REMOTE FRIENDLY</span>
+      <span>UI / UX</span>
+      <span>BRUTALIST DESIGN</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 001 — HERO
+       ═══════════════════════════════════════ -->
+  <section id="p-hero" class="p-section">
+    <div class="hero-main">
+      <div class="hero-eyebrow">// 001 &mdash; INTRO.SH</div>
+
+      <h1 class="hero-name" aria-label="Developer Portfolio">
+        <span class="glitch" data-text="DEV">DEV</span>
+        <span class="glitch" data-text="LOPER">&nbsp;LOPER</span>
+      </h1>
+
+      <p class="hero-role">
+        FULL-STACK ENGINEER &mdash; ACCESSIBILITY SPECIALIST<span class="cursor-block" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero-desc">
+        I BUILD ACCESSIBLE, PERFORMANT DIGITAL EXPERIENCES.
+        FOCUSED ON PDF REMEDIATION, WEB ACCESSIBILITY, AND
+        RAW FUNCTIONAL INTERFACE DESIGN.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#p-work"    class="btn-brutal yellow">VIEW WORK</a>
+        <a href="#p-contact" class="btn-brutal dark">CONTACT</a>
+        <a href="/"          class="btn-brutal">PDF TOOL →</a>
+      </div>
+    </div>
+
+    <!-- Live IP / location sidebar -->
+    <div class="hero-sidebar" aria-label="Visitor information">
+      <div class="hero-stat">
+        <div class="stat-lbl">// IP ADDRESS</div>
+        <div class="stat-val loading" id="statIP">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// LOCATION</div>
+        <div class="stat-val loading" id="statLoc">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// NETWORK / ISP</div>
+        <div class="stat-val loading" id="statOrg">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// STATUS</div>
+        <div class="stat-val ok" id="statStatus">CONNECTED</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 002 — ABOUT
+       ═══════════════════════════════════════ -->
+  <section id="p-about" class="p-section reveal">
+    <div class="about-left">
+      <div class="p-label"><span class="num">002</span>ABOUT.TXT</div>
+      <h2 class="p-section-title">ABOUT</h2>
+      <div class="tag-cloud">
+        <span class="tag filled">ENGINEER</span>
+        <span class="tag filled">DESIGNER</span>
+        <span class="tag yellow">OPEN SOURCE</span>
+        <span class="tag">A11Y</span>
+        <span class="tag">BUILDER</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-bio">
+        <p>
+          FULL-STACK ENGINEER WITH A FOCUS ON ACCESSIBILITY,
+          DOCUMENT REMEDIATION, AND RAW FUNCTIONAL INTERFACES.
+          I BELIEVE SOFTWARE SHOULD WORK FOR EVERYONE —
+          SCREEN READERS, KEYBOARD USERS, AND EVERYTHING IN BETWEEN.
+        </p>
+        <p>
+          I BUILT THE PDF ACCESSIBILITY TAGGER TO SOLVE A REAL PROBLEM:
+          THOUSANDS OF DOCUMENTS ARE PUBLISHED WITHOUT PROPER STRUCTURE
+          TAGS, MAKING THEM INACCESSIBLE TO SCREEN READER USERS.
+          THIS TOOL AUTOMATES THE ENTIRE REMEDIATION PIPELINE.
+        </p>
+        <p>
+          WHEN I'M NOT WRITING PYTHON OR WRANGLING CSS, I'M THINKING
+          ABOUT HOW WE BUILD A MORE INCLUSIVE INTERNET —
+          ONE TAGGED PDF AT A TIME.
+        </p>
+      </div>
+      <a href="#p-contact" class="btn-brutal yellow">LET'S WORK TOGETHER</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 003 — WORK
+       ═══════════════════════════════════════ -->
+  <section id="p-work" class="p-section reveal">
+    <div style="padding:4rem 4rem 2.5rem">
+      <div class="p-label"><span class="num">003</span>WORK/</div>
+      <h2 class="p-section-title">PROJECTS</h2>
+    </div>
+    <div style="padding:0 4rem 4rem">
+      <div class="projects-grid">
+
+        <div class="project-card featured">
+          <div class="proj-num-eyebrow">
+            <span class="proj-num">01</span>FEATURED PROJECT
+          </div>
+          <h3 class="proj-title">PDF ACCESSIBILITY TAGGER</h3>
+          <p class="proj-desc">
+            Automated pipeline that adds structure tags, reading order,
+            alt-text scaffolding, and WCAG 2.1 compliance markers to
+            PDF documents. Batch-process up to 50 files per session
+            with a zero-install web interface.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">Flask</span>
+            <span class="proj-tag">pikepdf</span>
+            <span class="proj-tag">WCAG 2.1</span>
+            <span class="proj-tag">A11Y</span>
+          </div>
+          <a href="/" class="proj-link">LAUNCH APP</a>
+        </div>
+
+        <div class="project-card">
+          <div class="proj-num-eyebrow">
+            <span class="proj-num">02</span>OPEN SOURCE
+          </div>
+          <h3 class="proj-title">WCAG AUDIT CRAWLER</h3>
+          <p class="proj-desc">
+            Headless browser crawler that audits web pages for
+            WCAG 2.1 AA violations. Generates structured JSON reports
+            and plain-language remediation checklists for
+            accessibility teams.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Node.js</span>
+            <span class="proj-tag">Playwright</span>
+            <span class="proj-tag">WCAG</span>
+            <span class="proj-tag">CLI</span>
+          </div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+
+        <div class="project-card">
+          <div class="proj-num-eyebrow">
+            <span class="proj-num">03</span>INTERFACE
+          </div>
+          <h3 class="proj-title">BRUTALIST DESIGN SYSTEM</h3>
+          <p class="proj-desc">
+            Component library built on raw HTML/CSS principles. No
+            frameworks, no preprocessors — just borders, boxes, and
+            brutal clarity. Fully accessible and keyboard-navigable
+            out of the box.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">Vanilla JS</span>
+            <span class="proj-tag">A11Y</span>
+          </div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+
+        <div class="project-card">
+          <div class="proj-num-eyebrow">
+            <span class="proj-num">04</span>ENTERPRISE TOOL
+          </div>
+          <h3 class="proj-title">DOCUMENT PIPELINE CLI</h3>
+          <p class="proj-desc">
+            Command-line tool for bulk document conversion, OCR
+            processing, and metadata extraction. Integrates with
+            cloud storage providers for enterprise-scale
+            document workflows.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">Click</span>
+            <span class="proj-tag">OCR</span>
+            <span class="proj-tag">AWS S3</span>
+          </div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 004 — SKILLS
+       ═══════════════════════════════════════ -->
+  <section id="p-skills" class="p-section reveal">
+    <div class="skills-left">
+      <div class="p-label"><span class="num">004</span>SKILLS.LOG</div>
+      <h2 class="p-section-title">SKILLS</h2>
+
+      <div class="skill-group">
+        <div class="skill-cat-title">BACKEND</div>
+        <div class="skill-row">
+          <span class="skill-name">PYTHON</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">FLASK</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">NODE.JS</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">POSTGRESQL</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
+          <span class="skill-pct">75%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">DOCKER</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
+          <span class="skill-pct">78%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-right">
+      <div class="skill-group" style="margin-top:calc(0.65rem + 1rem + clamp(2rem,5vw,3.75rem) + 1rem + 3px + 2.5rem)">
+        <div class="skill-cat-title">FRONTEND</div>
+        <div class="skill-row">
+          <span class="skill-name">HTML / CSS</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">JAVASCRIPT</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
+          <span class="skill-pct">88%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">REACT</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
+          <span class="skill-pct">82%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">WCAG / A11Y</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="93"></div></div>
+          <span class="skill-pct">93%</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-cat-title">TOOLS &amp; DEVOPS</div>
+        <div class="skill-row">
+          <span class="skill-name">GIT</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">CI / CD</span>
+          <div class="skill-bar"><div class="skill-fill" data-pct="76"></div></div>
+          <span class="skill-pct">76%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 005 — CONTACT
+       ═══════════════════════════════════════ -->
+  <section id="p-contact" class="p-section reveal">
+    <div class="contact-left">
+      <div class="p-label"><span class="num">005</span>CONTACT.SH</div>
+      <h2 class="p-section-title">CONTACT</h2>
+
+      <div class="contact-item">
+        <i class="contact-item-icon" aria-hidden="true">[✉]</i>
+        <div>
+          <div class="contact-lbl">EMAIL</div>
+          <a href="mailto:hello@devlpr.dev" class="contact-val">hello@devlpr.dev</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <i class="contact-item-icon" aria-hidden="true">[G]</i>
+        <div>
+          <div class="contact-lbl">GITHUB</div>
+          <a href="#" class="contact-val">github.com/devlpr</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <i class="contact-item-icon" aria-hidden="true">[L]</i>
+        <div>
+          <div class="contact-lbl">LINKEDIN</div>
+          <a href="#" class="contact-val">linkedin.com/in/devlpr</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <i class="contact-item-icon" aria-hidden="true">[◎]</i>
+        <div>
+          <div class="contact-lbl">STATUS</div>
+          <span class="contact-val">OPEN TO OPPORTUNITIES</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <p class="contact-intro">
+        HAVE A PROJECT IN MIND? SEND A MESSAGE BELOW OR REACH
+        OUT DIRECTLY. I RESPOND WITHIN 24 HOURS.
+      </p>
+      <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+        <div class="form-group">
+          <label class="form-lbl" for="cf-name">NAME</label>
+          <input type="text" id="cf-name" class="form-input" placeholder="YOUR_NAME" required>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl" for="cf-email">EMAIL</label>
+          <input type="email" id="cf-email" class="form-input" placeholder="YOUR@EMAIL.COM" required>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl" for="cf-msg">MESSAGE</label>
+          <textarea id="cf-msg" class="form-textarea" placeholder="DESCRIBE YOUR PROJECT..." required></textarea>
+        </div>
+        <button type="submit" class="btn-brutal yellow" id="formSubmitBtn" style="width:100%;text-align:center">
+          SEND MESSAGE →
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ───── FOOTER ───── -->
+  <footer class="p-footer">
+    <div class="p-footer-left">
+      <strong>PORTFOLIO.EXE</strong><br>
+      [EOF] &mdash; ALL SYSTEMS NOMINAL
+    </div>
+    <div class="p-footer-right">
+      BUILT WITH PYTHON + FLASK<br>
+      &copy; 2024 &mdash; ALL RIGHTS RESERVED<br>
+      <span class="p-foot-ip" id="footerIp"></span>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       ALLSTATE RECOGNITION MODAL
+       ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="allstateModal"
+       role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span class="modal-hdr-title">// SYSTEM ALERT &mdash; ENTERPRISE NETWORK IDENTIFIED</span>
+        <button class="modal-close-btn" onclick="closeAllstateModal()" aria-label="Close alert">X</button>
+      </div>
+      <div class="modal-body">
+        <span class="modal-alert-icon" aria-hidden="true">&#9873;</span>
+        <h2 class="modal-title" id="modalHeading">ALLSTATE NETWORK DETECTED</h2>
+        <p class="modal-sub">// CONNECTION ORIGIN IDENTIFIED &mdash; ENTERPRISE NETWORK</p>
+        <p class="modal-msg">
+          HELLO — YOUR CONNECTION HAS BEEN IDENTIFIED AS ORIGINATING
+          FROM THE <strong>ALLSTATE INSURANCE COMPANY</strong> NETWORK.<br><br>
+          WELCOME. THIS PORTFOLIO SHOWCASES WORK IN DOCUMENT
+          ACCESSIBILITY, WEB ENGINEERING, AND MORE. FEEL FREE TO
+          LOOK AROUND — AND IF YOU'D LIKE TO CONNECT,
+          THE CONTACT SECTION IS JUST BELOW.
+        </p>
+        <pre class="modal-data-block" id="modalDataBlock">
+&gt; LOADING NETWORK DATA...</pre>
+        <div class="modal-actions">
+          <button class="btn-brutal yellow" onclick="closeAllstateModal()">
+            ACKNOWLEDGE + CONTINUE
+          </button>
+          <a href="#p-contact" class="btn-brutal dark" onclick="closeAllstateModal()">
+            GO TO CONTACT
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/portfolio.js') }}"></script>
+</body>
+</html>
