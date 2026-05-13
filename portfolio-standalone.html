@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PORTFOLIO.EXE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:  #000;
+      --white:  #fff;
+      --yellow: #ffe600;
+      --red:    #ff2200;
+      --gray:   #777;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Mono', 'Courier New', monospace;
+      background: var(--white); color: var(--black);
+      line-height: 1.5; overflow-x: hidden; cursor: crosshair;
+    }
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: var(--white); border-left: 2px solid var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--black); }
+
+    /* SCANLINES */
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.04) 3px, rgba(0,0,0,.04) 4px);
+      animation: scanMove 12s linear infinite;
+    }
+    @keyframes scanMove { 0%{background-position:0 0} 100%{background-position:0 100px} }
+
+    /* BOOT */
+    .boot-overlay {
+      position: fixed; inset: 0; background: var(--black); color: var(--yellow);
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+      padding: 4rem; z-index: 9999; transition: opacity .5s ease;
+    }
+    .boot-overlay.fade-out { opacity: 0; pointer-events: none; }
+    .boot-line { display: block; opacity: 0; font-size: .85rem; line-height: 2; transition: opacity .05s; }
+    .boot-line.visible { opacity: 1; }
+
+    /* NAV */
+    .p-nav {
+      position: sticky; top: 0; z-index: 500; background: var(--black); color: var(--white);
+      border-bottom: 3px solid var(--yellow); display: flex; align-items: stretch; height: 56px;
+    }
+    .p-nav-logo {
+      font-size: .875rem; font-weight: 700; letter-spacing: .06em; color: var(--yellow);
+      text-decoration: none; text-transform: uppercase; padding: 0 1.5rem;
+      display: flex; align-items: center; border-right: 2px solid #333;
+    }
+    .p-nav-links { display: flex; list-style: none; flex: 1; }
+    .p-nav-links a {
+      display: flex; align-items: center; padding: 0 1.25rem; color: var(--white);
+      text-decoration: none; font-size: .7rem; text-transform: uppercase; letter-spacing: .12em;
+      border-right: 1px solid #2a2a2a; transition: background .08s, color .08s;
+    }
+    .p-nav-links a:hover { background: var(--yellow); color: var(--black); }
+    .p-nav-status {
+      margin-left: auto; padding: 0 1.5rem; display: flex; align-items: center;
+      gap: .5rem; font-size: .65rem; color: var(--gray); border-left: 2px solid #333;
+    }
+    .status-dot {
+      width: 8px; height: 8px; background: #00ee44;
+      border-radius: 50%; animation: statusPulse 2s infinite;
+    }
+    @keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    /* TICKER */
+    .p-ticker {
+      background: var(--yellow); border-bottom: 3px solid var(--black);
+      overflow: hidden; height: 38px; display: flex; align-items: center;
+    }
+    .p-ticker-inner {
+      display: flex; animation: tickerScroll 40s linear infinite;
+      white-space: nowrap; user-select: none;
+    }
+    .p-ticker-inner span {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .16em; padding: 0 2.5rem; color: var(--black);
+    }
+    .p-ticker-inner span::before { content: '//'; margin-right: .6rem; opacity: .45; }
+    @keyframes tickerScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SECTIONS */
+    .p-section { border-bottom: 3px solid var(--black); }
+    .p-label { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); margin-bottom: .6rem; }
+    .p-label .num { background: var(--black); color: var(--yellow); padding: .1rem .45rem; margin-right: .4rem; }
+    .p-section-title {
+      font-size: clamp(2rem,5vw,3.75rem); font-weight: 700; text-transform: uppercase;
+      letter-spacing: -.02em; line-height: 1; border-bottom: 3px solid var(--black);
+      padding-bottom: 1rem; margin-bottom: 2.5rem;
+    }
+
+    /* BUTTON */
+    .btn-brutal {
+      display: inline-block; padding: .7rem 1.4rem; font-family: 'Space Mono', monospace;
+      font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      text-decoration: none; border: 3px solid var(--black); box-shadow: 3px 3px 0 var(--black);
+      transition: transform .08s, box-shadow .08s; cursor: pointer;
+      background: var(--white); color: var(--black); line-height: 1;
+    }
+    .btn-brutal:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+    .btn-brutal:active { transform: translate(0); box-shadow: none; }
+    .btn-brutal.yellow { background: var(--yellow); }
+    .btn-brutal.dark   { background: var(--black); color: var(--white); }
+    .btn-brutal.dark:hover { box-shadow: 6px 6px 0 var(--yellow); }
+
+    /* HERO */
+    #p-hero { display: grid; grid-template-columns: 3fr 1fr; min-height: calc(100vh - 94px); }
+    .hero-main {
+      padding: 4rem; border-right: 3px solid var(--black);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .2em; color: var(--gray); margin-bottom: 1.5rem; }
+    .hero-name { font-size: clamp(3.5rem,9vw,8rem); font-weight: 700; text-transform: uppercase; line-height: .9; letter-spacing: -.03em; margin-bottom: 1.5rem; }
+    .glitch { position: relative; display: block; }
+    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; }
+    .glitch::before { color: var(--red); clip-path: polygon(0 0,100% 0,100% 40%,0 40%); animation: glitchTop 6s infinite; }
+    .glitch::after  { color: var(--yellow); clip-path: polygon(0 58%,100% 58%,100% 100%,0 100%); animation: glitchBot 6s infinite; }
+    @keyframes glitchTop {
+      0%,88%,100%{transform:translate(0);opacity:0}
+      89%{transform:translate(-4px,2px);opacity:1} 91%{transform:translate(4px,-2px);opacity:1}
+      93%{transform:translate(-2px,0);opacity:1}   97%{transform:translate(0);opacity:0}
+    }
+    @keyframes glitchBot {
+      0%,83%,100%{transform:translate(0);opacity:0}
+      84%{transform:translate(5px,-2px);opacity:1} 86%{transform:translate(-3px,3px);opacity:1}
+      90%{transform:translate(0);opacity:0}
+    }
+    .hero-role {
+      font-size: .95rem; text-transform: uppercase; letter-spacing: .14em;
+      border-top: 3px solid var(--black); border-bottom: 3px solid var(--black);
+      padding: .6rem 0; margin-bottom: 2rem;
+    }
+    .cursor-block {
+      display: inline-block; width: .55em; height: .9em; background: var(--black);
+      margin-left: 3px; vertical-align: middle; animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-desc { font-size: .8rem; line-height: 1.9; max-width: 560px; margin-bottom: 2.5rem; text-transform: uppercase; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-sidebar { display: flex; flex-direction: column; }
+    .hero-stat {
+      flex: 1; padding: 1.75rem 1.5rem; border-bottom: 3px solid var(--black);
+      display: flex; flex-direction: column; justify-content: flex-end; min-height: 100px;
+    }
+    .hero-stat:last-child { border-bottom: none; }
+    .stat-lbl { font-size: .6rem; text-transform: uppercase; letter-spacing: .18em; color: var(--gray); margin-bottom: .4rem; }
+    .stat-val { font-size: .875rem; font-weight: 700; word-break: break-all; line-height: 1.4; }
+    .stat-val.loading { color: var(--gray); }
+    .stat-val.ok { color: #008800; }
+
+    /* ABOUT */
+    #p-about { display: grid; grid-template-columns: 1fr 2fr; padding: 4rem; }
+    .about-left { padding-right: 3rem; border-right: 3px solid var(--black); }
+    .about-right { padding-left: 3rem; }
+    .about-bio { font-size: .875rem; line-height: 2; text-transform: uppercase; margin-bottom: 2rem; }
+    .about-bio p { margin-bottom: 1.25rem; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.5rem; }
+    .tag { display: inline-block; padding: .2rem .65rem; border: 2px solid var(--black); font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+    .tag.filled { background: var(--black); color: var(--white); }
+    .tag.yellow { background: var(--yellow); }
+
+    /* WORK */
+    #p-work { padding: 4rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2,1fr); border: 3px solid var(--black); }
+    .project-card {
+      padding: 2rem; border: 3px solid var(--black); margin: -3px;
+      background: var(--white); position: relative; transition: transform .08s, box-shadow .08s;
+    }
+    .project-card:hover { transform: translate(-4px,-4px); box-shadow: 4px 4px 0 var(--black); z-index: 1; }
+    .project-card.featured { background: var(--yellow); }
+    .proj-num-eyebrow { font-size: .6rem; font-weight: 700; letter-spacing: .18em; color: var(--gray); text-transform: uppercase; margin-bottom: .75rem; }
+    .proj-num { display: block; font-size: 2rem; font-weight: 700; color: var(--black); line-height: 1; margin-bottom: .25rem; }
+    .proj-title { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: .75rem; line-height: 1.2; }
+    .proj-desc { font-size: .75rem; line-height: 1.8; margin-bottom: 1.25rem; color: #222; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: 1.25rem; }
+    .proj-tag { font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: .15rem .45rem; border: 2px solid var(--black); }
+    .proj-link { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; text-decoration: none; color: var(--black); border-bottom: 2px solid var(--black); padding-bottom: 1px; }
+    .proj-link::after { content: ' →'; }
+
+    /* SKILLS */
+    #p-skills { padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .skill-cat-title { display: inline-block; background: var(--black); color: var(--yellow); font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .2em; padding: .2rem .5rem; margin-bottom: 1rem; }
+    .skill-group { margin-bottom: 2.5rem; }
+    .skill-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .65rem; }
+    .skill-name { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; min-width: 110px; }
+    .skill-bar { flex: 1; height: 14px; border: 2px solid var(--black); background: var(--white); position: relative; overflow: hidden; }
+    .skill-fill {
+      position: absolute; left: 0; top: 0; height: 100%; width: 0;
+      transition: width 1.1s cubic-bezier(.2,0,.1,1);
+      background: repeating-linear-gradient(90deg, var(--black) 0, var(--black) 6px, transparent 6px, transparent 10px);
+    }
+    .skill-row:nth-child(even) .skill-fill {
+      background: repeating-linear-gradient(90deg, var(--yellow) 0, var(--yellow) 6px, var(--black) 6px, var(--black) 10px);
+    }
+    .skill-pct { font-size: .6rem; font-weight: 700; min-width: 32px; text-align: right; }
+
+    /* CONTACT */
+    #p-contact { padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; }
+    .contact-left { padding-right: 3rem; border-right: 3px solid var(--black); }
+    .contact-right { padding-left: 3rem; }
+    .contact-item { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 2px solid var(--black); }
+    .contact-item:first-of-type { border-top: 2px solid var(--black); }
+    .contact-item-icon { font-size: .875rem; min-width: 20px; font-style: normal; }
+    .contact-lbl { font-size: .58rem; text-transform: uppercase; letter-spacing: .16em; color: var(--gray); margin-bottom: .25rem; }
+    .contact-val { font-size: .8rem; font-weight: 700; text-decoration: none; color: var(--black); }
+    .contact-val:hover { text-decoration: underline; }
+    .contact-intro { font-size: .8rem; text-transform: uppercase; line-height: 1.9; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-lbl { display: block; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; margin-bottom: .4rem; }
+    .form-input, .form-textarea {
+      width: 100%; padding: .65rem .75rem; font-family: 'Space Mono', monospace;
+      font-size: .8rem; border: 3px solid var(--black); background: var(--white);
+      outline: none; transition: box-shadow .08s; resize: vertical;
+    }
+    .form-input:focus, .form-textarea:focus { box-shadow: 4px 4px 0 var(--black); }
+    .form-textarea { min-height: 110px; }
+
+    /* FOOTER */
+    .p-footer {
+      background: var(--black); color: var(--white); padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .p-footer-left { font-size: .75rem; line-height: 1.8; }
+    .p-footer-right { font-size: .65rem; color: var(--gray); text-align: right; line-height: 1.8; }
+    .p-foot-ip { color: var(--yellow); }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 800;
+      display: flex; align-items: center; justify-content: center; padding: 2rem;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--white); border: 4px solid var(--yellow); box-shadow: 8px 8px 0 var(--yellow);
+      max-width: 560px; width: 100%; transform: translate(8px,8px); transition: transform .25s cubic-bezier(.2,0,.1,1);
+    }
+    .modal-overlay.active .modal-box { transform: translate(0,0); }
+    .modal-hdr {
+      background: var(--yellow); padding: .9rem 1.5rem; border-bottom: 4px solid var(--black);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-hdr-title { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--black); }
+    .modal-close-btn {
+      background: var(--black); color: var(--yellow); border: none; width: 28px; height: 28px;
+      font-size: .875rem; font-weight: 700; font-family: 'Space Mono', monospace;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .modal-close-btn:hover { background: var(--red); color: var(--white); }
+    .modal-body { padding: 2rem; }
+    .modal-alert-icon { font-size: 2rem; display: block; margin-bottom: .75rem; }
+    .modal-title { font-size: 1.4rem; font-weight: 700; text-transform: uppercase; line-height: 1.2; margin-bottom: .4rem; }
+    .modal-sub { font-size: .65rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gray); padding-bottom: 1.25rem; margin-bottom: 1.25rem; border-bottom: 2px solid var(--black); }
+    .modal-msg { font-size: .8rem; line-height: 1.9; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .modal-data-block { background: var(--black); color: var(--yellow); padding: 1rem 1.25rem; font-size: .72rem; line-height: 2; margin-bottom: 1.5rem; white-space: pre; overflow-x: auto; }
+    .modal-data-block .val { color: var(--white); }
+    .modal-data-block .ok  { color: #00ff88; }
+    .modal-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .45s ease, transform .45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      #p-hero { grid-template-columns: 1fr; }
+      .hero-main { border-right: none; border-bottom: 3px solid var(--black); padding: 2.5rem 2rem; }
+      .hero-sidebar { flex-direction: row; overflow-x: auto; }
+      .hero-stat { min-width: 160px; border-bottom: none; border-right: 3px solid var(--black); }
+      .hero-stat:last-child { border-right: none; }
+      #p-about { grid-template-columns: 1fr; padding: 2rem; }
+      .about-left { border-right: none; padding-right: 0; border-bottom: 3px solid var(--black); padding-bottom: 2rem; margin-bottom: 2rem; }
+      .about-right { padding-left: 0; }
+      #p-work { padding: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      #p-skills { grid-template-columns: 1fr; padding: 2rem; gap: 0; }
+      #p-contact { grid-template-columns: 1fr; padding: 2rem; }
+      .contact-left { border-right: none; padding-right: 0; border-bottom: 3px solid var(--black); padding-bottom: 2rem; margin-bottom: 2rem; }
+      .contact-right { padding-left: 0; }
+      .p-footer { padding: 2rem; flex-direction: column; }
+      .p-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <div class="boot-overlay" id="bootOverlay" aria-hidden="true">
+    <div id="bootText"></div>
+  </div>
+
+  <nav class="p-nav">
+    <a href="#p-hero" class="p-nav-logo">PORTFOLIO.EXE</a>
+    <ul class="p-nav-links">
+      <li><a href="#p-about">ABOUT</a></li>
+      <li><a href="#p-work">WORK</a></li>
+      <li><a href="#p-skills">SKILLS</a></li>
+      <li><a href="#p-contact">CONTACT</a></li>
+    </ul>
+    <div class="p-nav-status">
+      <div class="status-dot"></div>
+      <span id="navStatus">CONNECTING...</span>
+    </div>
+  </nav>
+
+  <div class="p-ticker" aria-hidden="true">
+    <div class="p-ticker-inner">
+      <span>AVAILABLE FOR HIRE</span><span>FULL-STACK ENGINEER</span>
+      <span>PYTHON &amp; JAVASCRIPT</span><span>PDF ACCESSIBILITY</span>
+      <span>WCAG 2.1 COMPLIANT</span><span>OPEN SOURCE</span>
+      <span>REMOTE FRIENDLY</span><span>UI / UX</span><span>BRUTALIST DESIGN</span>
+      <span>AVAILABLE FOR HIRE</span><span>FULL-STACK ENGINEER</span>
+      <span>PYTHON &amp; JAVASCRIPT</span><span>PDF ACCESSIBILITY</span>
+      <span>WCAG 2.1 COMPLIANT</span><span>OPEN SOURCE</span>
+      <span>REMOTE FRIENDLY</span><span>UI / UX</span><span>BRUTALIST DESIGN</span>
+    </div>
+  </div>
+
+  <section id="p-hero" class="p-section">
+    <div class="hero-main">
+      <div class="hero-eyebrow">// 001 &mdash; INTRO.SH</div>
+      <h1 class="hero-name">
+        <span class="glitch" data-text="DEV">DEV</span>
+        <span class="glitch" data-text="&nbsp;LOPER">&nbsp;LOPER</span>
+      </h1>
+      <p class="hero-role">FULL-STACK ENGINEER &mdash; ACCESSIBILITY SPECIALIST<span class="cursor-block" aria-hidden="true"></span></p>
+      <p class="hero-desc">I BUILD ACCESSIBLE, PERFORMANT DIGITAL EXPERIENCES. FOCUSED ON PDF REMEDIATION, WEB ACCESSIBILITY, AND RAW FUNCTIONAL INTERFACE DESIGN.</p>
+      <div class="hero-actions">
+        <a href="#p-work"    class="btn-brutal yellow">VIEW WORK</a>
+        <a href="#p-contact" class="btn-brutal dark">CONTACT</a>
+      </div>
+    </div>
+    <div class="hero-sidebar">
+      <div class="hero-stat">
+        <div class="stat-lbl">// IP ADDRESS</div>
+        <div class="stat-val loading" id="statIP">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// LOCATION</div>
+        <div class="stat-val loading" id="statLoc">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// NETWORK / ISP</div>
+        <div class="stat-val loading" id="statOrg">RESOLVING...</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-lbl">// STATUS</div>
+        <div class="stat-val ok" id="statStatus">CONNECTED</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-about" class="p-section reveal">
+    <div class="about-left">
+      <div class="p-label"><span class="num">002</span>ABOUT.TXT</div>
+      <h2 class="p-section-title">ABOUT</h2>
+      <div class="tag-cloud">
+        <span class="tag filled">ENGINEER</span>
+        <span class="tag filled">DESIGNER</span>
+        <span class="tag yellow">OPEN SOURCE</span>
+        <span class="tag">A11Y</span>
+        <span class="tag">BUILDER</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-bio">
+        <p>FULL-STACK ENGINEER WITH A FOCUS ON ACCESSIBILITY, DOCUMENT REMEDIATION, AND RAW FUNCTIONAL INTERFACES. I BELIEVE SOFTWARE SHOULD WORK FOR EVERYONE — SCREEN READERS, KEYBOARD USERS, AND EVERYTHING IN BETWEEN.</p>
+        <p>I BUILT THE PDF ACCESSIBILITY TAGGER TO SOLVE A REAL PROBLEM: THOUSANDS OF DOCUMENTS ARE PUBLISHED WITHOUT PROPER STRUCTURE TAGS, MAKING THEM INACCESSIBLE TO SCREEN READER USERS. THIS TOOL AUTOMATES THE ENTIRE REMEDIATION PIPELINE.</p>
+        <p>WHEN I'M NOT WRITING PYTHON OR WRANGLING CSS, I'M THINKING ABOUT HOW WE BUILD A MORE INCLUSIVE INTERNET — ONE TAGGED PDF AT A TIME.</p>
+      </div>
+      <a href="#p-contact" class="btn-brutal yellow">LET'S WORK TOGETHER</a>
+    </div>
+  </section>
+
+  <section id="p-work" class="p-section reveal">
+    <div style="padding:4rem 4rem 2.5rem">
+      <div class="p-label"><span class="num">003</span>WORK/</div>
+      <h2 class="p-section-title">PROJECTS</h2>
+    </div>
+    <div style="padding:0 4rem 4rem">
+      <div class="projects-grid">
+        <div class="project-card featured">
+          <div class="proj-num-eyebrow"><span class="proj-num">01</span>FEATURED PROJECT</div>
+          <h3 class="proj-title">PDF ACCESSIBILITY TAGGER</h3>
+          <p class="proj-desc">Automated pipeline that adds structure tags, reading order, alt-text scaffolding, and WCAG 2.1 compliance markers to PDF documents. Batch-process up to 50 files per session.</p>
+          <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">pikepdf</span><span class="proj-tag">WCAG 2.1</span></div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-num-eyebrow"><span class="proj-num">02</span>OPEN SOURCE</div>
+          <h3 class="proj-title">WCAG AUDIT CRAWLER</h3>
+          <p class="proj-desc">Headless browser crawler that audits web pages for WCAG 2.1 AA violations. Generates structured JSON reports and plain-language remediation checklists.</p>
+          <div class="proj-tags"><span class="proj-tag">Node.js</span><span class="proj-tag">Playwright</span><span class="proj-tag">WCAG</span><span class="proj-tag">CLI</span></div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-num-eyebrow"><span class="proj-num">03</span>INTERFACE</div>
+          <h3 class="proj-title">BRUTALIST DESIGN SYSTEM</h3>
+          <p class="proj-desc">Component library built on raw HTML/CSS principles. No frameworks, no preprocessors — just borders, boxes, and brutal clarity. Fully accessible and keyboard-navigable.</p>
+          <div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">Vanilla JS</span><span class="proj-tag">A11Y</span></div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-num-eyebrow"><span class="proj-num">04</span>ENTERPRISE TOOL</div>
+          <h3 class="proj-title">DOCUMENT PIPELINE CLI</h3>
+          <p class="proj-desc">Command-line tool for bulk document conversion, OCR processing, and metadata extraction. Integrates with cloud storage providers for enterprise workflows.</p>
+          <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Click</span><span class="proj-tag">OCR</span><span class="proj-tag">AWS S3</span></div>
+          <a href="#" class="proj-link">VIEW PROJECT</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-skills" class="p-section reveal">
+    <div class="skills-left">
+      <div class="p-label"><span class="num">004</span>SKILLS.LOG</div>
+      <h2 class="p-section-title">SKILLS</h2>
+      <div class="skill-group">
+        <div class="skill-cat-title">BACKEND</div>
+        <div class="skill-row"><span class="skill-name">PYTHON</span><div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div><span class="skill-pct">95%</span></div>
+        <div class="skill-row"><span class="skill-name">FLASK</span><div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div><span class="skill-pct">90%</span></div>
+        <div class="skill-row"><span class="skill-name">NODE.JS</span><div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-name">POSTGRESQL</span><div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div><span class="skill-pct">75%</span></div>
+        <div class="skill-row"><span class="skill-name">DOCKER</span><div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div><span class="skill-pct">78%</span></div>
+      </div>
+    </div>
+    <div class="skills-right">
+      <div class="skill-group" style="margin-top:calc(0.65rem + 1rem + clamp(2rem,5vw,3.75rem) + 1rem + 3px + 2.5rem)">
+        <div class="skill-cat-title">FRONTEND</div>
+        <div class="skill-row"><span class="skill-name">HTML / CSS</span><div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div><span class="skill-pct">95%</span></div>
+        <div class="skill-row"><span class="skill-name">JAVASCRIPT</span><div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div><span class="skill-pct">88%</span></div>
+        <div class="skill-row"><span class="skill-name">REACT</span><div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div><span class="skill-pct">82%</span></div>
+        <div class="skill-row"><span class="skill-name">WCAG / A11Y</span><div class="skill-bar"><div class="skill-fill" data-pct="93"></div></div><span class="skill-pct">93%</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat-title">TOOLS &amp; DEVOPS</div>
+        <div class="skill-row"><span class="skill-name">GIT</span><div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div><span class="skill-pct">90%</span></div>
+        <div class="skill-row"><span class="skill-name">CI / CD</span><div class="skill-bar"><div class="skill-fill" data-pct="76"></div></div><span class="skill-pct">76%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-contact" class="p-section reveal">
+    <div class="contact-left">
+      <div class="p-label"><span class="num">005</span>CONTACT.SH</div>
+      <h2 class="p-section-title">CONTACT</h2>
+      <div class="contact-item"><i class="contact-item-icon">[✉]</i><div><div class="contact-lbl">EMAIL</div><a href="mailto:hello@devlpr.dev" class="contact-val">hello@devlpr.dev</a></div></div>
+      <div class="contact-item"><i class="contact-item-icon">[G]</i><div><div class="contact-lbl">GITHUB</div><a href="#" class="contact-val">github.com/devlpr</a></div></div>
+      <div class="contact-item"><i class="contact-item-icon">[L]</i><div><div class="contact-lbl">LINKEDIN</div><a href="#" class="contact-val">linkedin.com/in/devlpr</a></div></div>
+      <div class="contact-item"><i class="contact-item-icon">[◎]</i><div><div class="contact-lbl">STATUS</div><span class="contact-val">OPEN TO OPPORTUNITIES</span></div></div>
+    </div>
+    <div class="contact-right">
+      <p class="contact-intro">HAVE A PROJECT IN MIND? SEND A MESSAGE BELOW OR REACH OUT DIRECTLY. I RESPOND WITHIN 24 HOURS.</p>
+      <form onsubmit="handleFormSubmit(event)" novalidate>
+        <div class="form-group"><label class="form-lbl" for="cf-name">NAME</label><input type="text" id="cf-name" class="form-input" placeholder="YOUR_NAME" required></div>
+        <div class="form-group"><label class="form-lbl" for="cf-email">EMAIL</label><input type="email" id="cf-email" class="form-input" placeholder="YOUR@EMAIL.COM" required></div>
+        <div class="form-group"><label class="form-lbl" for="cf-msg">MESSAGE</label><textarea id="cf-msg" class="form-textarea" placeholder="DESCRIBE YOUR PROJECT..." required></textarea></div>
+        <button type="submit" class="btn-brutal yellow" id="formSubmitBtn" style="width:100%;text-align:center">SEND MESSAGE →</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="p-footer">
+    <div class="p-footer-left"><strong>PORTFOLIO.EXE</strong><br>[EOF] &mdash; ALL SYSTEMS NOMINAL</div>
+    <div class="p-footer-right">BUILT WITH PYTHON + FLASK<br>&copy; 2024 &mdash; ALL RIGHTS RESERVED<br><span class="p-foot-ip" id="footerIp"></span></div>
+  </footer>
+
+  <div class="modal-overlay" id="allstateModal" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span class="modal-hdr-title">// SYSTEM ALERT &mdash; ENTERPRISE NETWORK IDENTIFIED</span>
+        <button class="modal-close-btn" onclick="closeAllstateModal()" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <span class="modal-alert-icon">&#9873;</span>
+        <h2 class="modal-title" id="modalHeading">ALLSTATE NETWORK DETECTED</h2>
+        <p class="modal-sub">// CONNECTION ORIGIN IDENTIFIED &mdash; ENTERPRISE NETWORK</p>
+        <p class="modal-msg">HELLO — YOUR CONNECTION HAS BEEN IDENTIFIED AS ORIGINATING FROM THE <strong>ALLSTATE INSURANCE COMPANY</strong> NETWORK.<br><br>WELCOME. THIS PORTFOLIO SHOWCASES WORK IN DOCUMENT ACCESSIBILITY, WEB ENGINEERING, AND MORE. FEEL FREE TO LOOK AROUND.</p>
+        <pre class="modal-data-block" id="modalDataBlock">> LOADING NETWORK DATA...</pre>
+        <div class="modal-actions">
+          <button class="btn-brutal yellow" onclick="closeAllstateModal()">ACKNOWLEDGE + CONTINUE</button>
+          <a href="#p-contact" class="btn-brutal dark" onclick="closeAllstateModal()">GO TO CONTACT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BOOT_LINES = [
+      'PORTFOLIO.EXE v1.0.0',
+      '─────────────────────────────────────',
+      '> INITIALIZING RENDER ENGINE ......... [OK]',
+      '> LOADING FONTS + ASSETS ............. [OK]',
+      '> MOUNTING INTERFACE COMPONENTS ...... [OK]',
+      '> DETECTING NETWORK ORIGIN ........... [PENDING]',
+      '> STARTING SESSION ................... [OK]',
+      '',
+      '  READY.',
+    ];
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function runBoot() {
+      const overlay  = document.getElementById('bootOverlay');
+      const bootText = document.getElementById('bootText');
+      for (const text of BOOT_LINES) {
+        await sleep(100);
+        const line = document.createElement('span');
+        line.className = 'boot-line';
+        line.textContent = text || ' ';
+        bootText.appendChild(line);
+        await sleep(10);
+        line.classList.add('visible');
+      }
+      await sleep(500);
+      overlay.classList.add('fade-out');
+      await sleep(500);
+      overlay.style.display = 'none';
+    }
+
+    async function detectVisitor() {
+      try {
+        // Client-side lookup — works when opening the file directly in a browser
+        const res  = await fetch('http://ip-api.com/json/?fields=status,country,regionName,city,org,as,isp,query');
+        const data = await res.json();
+        if (data.status !== 'success') { setFallback(); return; }
+
+        const ip  = data.query || '';
+        const loc = [data.city, data.regionName, data.country].filter(Boolean).join(', ') || 'UNKNOWN';
+        const net = (data.isp || data.org || data.as || 'UNKNOWN').substring(0, 32);
+
+        setVal('statIP',  ip  || 'UNKNOWN', false);
+        setVal('statLoc', loc, false);
+        setVal('statOrg', net, false);
+        setVal('statStatus', 'IDENTIFIED', true);
+
+        const nav = document.getElementById('navStatus');
+        if (nav) nav.textContent = (data.country || 'UNKNOWN') + ' — CONNECTED';
+
+        const foot = document.getElementById('footerIp');
+        if (foot && ip) foot.textContent = 'VISITOR: ' + ip;
+
+        const combined = ((data.org || '') + ' ' + (data.as || '') + ' ' + (data.isp || '')).toUpperCase();
+        if (combined.includes('ALLSTATE') || combined.includes('AS10796')) {
+          await sleep(1400);
+          showAllstateModal({ ip, loc, org: data.org, asn: data.as, isp: data.isp });
+        }
+      } catch (_) { setFallback(); }
+    }
+
+    function setVal(id, text, ok) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = text;
+      el.classList.remove('loading');
+      if (ok) el.classList.add('ok');
+    }
+
+    function setFallback() {
+      ['statIP','statLoc','statOrg'].forEach(id => setVal(id, 'UNAVAILABLE', false));
+      setVal('statStatus', 'CONNECTED', true);
+      const nav = document.getElementById('navStatus');
+      if (nav) nav.textContent = 'CONNECTED';
+    }
+
+    function showAllstateModal({ ip, loc, org, asn, isp }) {
+      const modal = document.getElementById('allstateModal');
+      const blk   = document.getElementById('modalDataBlock');
+      blk.innerHTML =
+        '> IP_ADDRESS:  <span class="val">' + (ip  || 'N/A') + '</span>\n' +
+        '> LOCATION:    <span class="val">' + (loc || 'N/A') + '</span>\n' +
+        '> NETWORK_ORG: <span class="val">' + (org || isp || 'N/A') + '</span>\n' +
+        '> ASN:         <span class="val">' + (asn || 'N/A') + '</span>\n' +
+        '> NETWORK:     <span class="ok">ALLSTATE ENTERPRISE NETWORK ✓</span>';
+      modal.classList.add('active');
+    }
+
+    function closeAllstateModal() {
+      document.getElementById('allstateModal').classList.remove('active');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('formSubmitBtn');
+      btn.textContent = 'MESSAGE SENT ✓';
+      btn.disabled = true;
+      btn.style.cssText += ';background:#000;color:#ffe600';
+      setTimeout(() => {
+        btn.textContent = 'SEND MESSAGE →';
+        btn.disabled = false;
+        btn.style.background = '';
+        btn.style.color = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    document.getElementById('allstateModal').addEventListener('click', function(e) {
+      if (e.target === this) closeAllstateModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllstateModal(); });
+
+    function initScrollReveal() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    }
+
+    function initSkillBars() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.width = e.target.getAttribute('data-pct') + '%';
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      document.querySelectorAll('.skill-fill').forEach(f => obs.observe(f));
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await runBoot();
+      initScrollReveal();
+      initSkillBars();
+      detectVisitor();
+    });
+  </script>
+</body>
+</html>
