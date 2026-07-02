@@ -100,15 +100,15 @@
     return "Regrettably bright";
   }
 
-  // Dreariness ramp: low recedes into the paper, peak gloom goes black-violet.
-  // Steps validated against surface #f4f2ec (light-mode ordinal ramp).
+  // Dreariness ramp: low recedes into the night, peak gloom glows bone-violet.
+  // Steps validated against surface #16141c (dark-mode ordinal ramp).
   function scoreColor(score) {
-    if (score >= 85) return { bg: "#2c2166", ink: "#f4f2ec" };
-    if (score >= 70) return { bg: "#4a3aa7", ink: "#f4f2ec" };
-    if (score >= 55) return { bg: "#6a58bd", ink: "#f4f2ec" };
-    if (score >= 40) return { bg: "#8b7cd3", ink: "#0a0a0a" };
-    if (score >= 25) return { bg: "#aca0e4", ink: "#0a0a0a" };
-    return { bg: "", ink: "" }; // bright day: stays on the paper
+    if (score >= 85) return { bg: "#cfc8f2", ink: "#0b0a0f" };
+    if (score >= 70) return { bg: "#aca0e4", ink: "#0b0a0f" };
+    if (score >= 55) return { bg: "#8b7cd3", ink: "#0b0a0f" };
+    if (score >= 40) return { bg: "#6a58bd", ink: "#f2efe7" };
+    if (score >= 25) return { bg: "#4a3aa7", ink: "#f2efe7" };
+    return { bg: "", ink: "" }; // bright day: stays in the night
   }
 
   /* ---------- formatting ---------- */
@@ -395,7 +395,7 @@
       });
       const label = put("text", {
         x: pad.left - 6, y: y + 3.5,
-        "text-anchor": "end", "font-size": 9.5,
+        "text-anchor": "end", "font-size": 10.5,
         fill: "var(--text-muted)", "font-variant-numeric": "tabular-nums",
       });
       label.textContent = state.unitF
@@ -405,7 +405,7 @@
     // axis unit
     const unitLabel = put("text", {
       x: pad.left - 6, y: pad.top - 8,
-      "text-anchor": "end", "font-size": 9.5, fill: "var(--text-muted)",
+      "text-anchor": "end", "font-size": 10.5, fill: "var(--text-muted)",
     });
     unitLabel.textContent = state.unitF ? "in" : "mm";
 
@@ -436,7 +436,7 @@
       if (i === maxIdx && day.precip > 0) {
         const lbl = put("text", {
           x: x + barW / 2, y: y - 5,
-          "text-anchor": "middle", "font-size": 9.5,
+          "text-anchor": "middle", "font-size": 10.5,
           "font-weight": 600, fill: "var(--text-secondary)",
         });
         lbl.textContent = fmtPrecip(day.precip);
@@ -446,7 +446,7 @@
       if (i % 2 === 0) {
         const xl = put("text", {
           x: x + barW / 2, y: H - 8,
-          "text-anchor": "middle", "font-size": 9,
+          "text-anchor": "middle", "font-size": 10,
           fill: "var(--text-muted)",
         });
         xl.textContent = day.date.toLocaleDateString(undefined, { day: "numeric" });
