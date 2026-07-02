@@ -100,15 +100,15 @@
     return "Regrettably bright";
   }
 
-  // Dreariness ramp: low recedes into the surface, peak gloom glows.
-  // Steps validated against surface #14161c (dark-mode ordinal ramp).
+  // Dreariness ramp: low recedes into the paper, peak gloom goes black-violet.
+  // Steps validated against surface #f4f2ec (light-mode ordinal ramp).
   function scoreColor(score) {
-    if (score >= 85) return { bg: "#b7d3f6", ink: "#0d0f14" };
-    if (score >= 70) return { bg: "#6da7ec", ink: "#0d0f14" };
-    if (score >= 55) return { bg: "#3987e5", ink: "#ffffff" };
-    if (score >= 40) return { bg: "#256abf", ink: "#ffffff" };
-    if (score >= 25) return { bg: "#184f95", ink: "#ffffff" };
-    return { bg: "", ink: "" }; // bright day: stays on the surface
+    if (score >= 85) return { bg: "#2c2166", ink: "#f4f2ec" };
+    if (score >= 70) return { bg: "#4a3aa7", ink: "#f4f2ec" };
+    if (score >= 55) return { bg: "#6a58bd", ink: "#f4f2ec" };
+    if (score >= 40) return { bg: "#8b7cd3", ink: "#0a0a0a" };
+    if (score >= 25) return { bg: "#aca0e4", ink: "#0a0a0a" };
+    return { bg: "", ink: "" }; // bright day: stays on the paper
   }
 
   /* ---------- formatting ---------- */

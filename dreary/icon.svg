@@ -1,14 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#14161c"/>
+  <rect width="512" height="512" fill="#eae7e0"/>
+  <rect x="24" y="24" width="464" height="464" fill="none" stroke="#0a0a0a" stroke-width="16"/>
   <!-- cloud -->
-  <g fill="#b9bec9">
+  <g fill="#0a0a0a">
     <circle cx="200" cy="216" r="72"/>
     <circle cx="288" cy="188" r="88"/>
     <circle cx="356" cy="236" r="60"/>
     <rect x="150" y="220" width="256" height="76" rx="38"/>
   </g>
   <!-- rain -->
-  <g stroke="#3987e5" stroke-width="22" stroke-linecap="round">
+  <g stroke="#4a3aa7" stroke-width="22" stroke-linecap="square">
     <line x1="196" y1="340" x2="176" y2="400"/>
     <line x1="268" y1="340" x2="248" y2="400"/>
     <line x1="340" y1="340" x2="320" y2="400"/>

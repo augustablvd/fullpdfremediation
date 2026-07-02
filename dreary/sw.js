@@ -1,6 +1,6 @@
 /* Dreary service worker — offline app shell + notification clicks. */
 
-const CACHE = "dreary-v1";
+const CACHE = "dreary-v2";
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", (event) => {

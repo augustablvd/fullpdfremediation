@@ -1,28 +1,33 @@
-/* Dreary — a dark, cozy rain theme.
-   Chart colors validated (dataviz six-checks) against surface #14161c. */
+/* Dreary — light brutalist goth: bone paper, hard black rule lines,
+   square corners, ink rain, funeral violet for the data.
+   Chart colors validated (dataviz six-checks) against surface #f4f2ec. */
 
 :root {
-  --page:           #0d0f14;
-  --surface-1:      #14161c;
-  --surface-2:      #1a1d26;
-  --text-primary:   #f4f4f2;
-  --text-secondary: #b9bec9;
-  --text-muted:     #8b909b;
-  --hairline:       rgba(255, 255, 255, 0.08);
-  --gridline:       rgba(255, 255, 255, 0.07);
-  --baseline:       #383d47;
-  --accent:         #3987e5;       /* series hue, validated on dark */
-  --accent-deep:    #1c5cab;
-  --accent-wash:    rgba(57, 135, 229, 0.14);
-  /* Sequential dreariness ramp (validated ordinal, dark mode):
-     low recedes into the surface, peak gloom glows. */
-  --gloom-1: #184f95;
-  --gloom-2: #256abf;
-  --gloom-3: #3987e5;
-  --gloom-4: #6da7ec;
-  --gloom-5: #b7d3f6;
-  --radius: 16px;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --page:           #eae7e0;   /* bone */
+  --surface-1:      #f4f2ec;   /* paper */
+  --surface-2:      #e6e2d8;
+  --ink:            #0a0a0a;
+  --text-primary:   #0a0a0a;
+  --text-secondary: #3d3a35;
+  --text-muted:     #6d6960;
+  --rule:           #0a0a0a;   /* structural border — always visible */
+  --gridline:       rgba(10, 10, 10, 0.12);
+  --baseline:       #0a0a0a;
+  --accent:         #4a3aa7;   /* funeral violet, validated on paper */
+  --accent-deep:    #2c2166;
+  --accent-wash:    rgba(74, 58, 167, 0.14);
+  /* Sequential dreariness ramp (validated ordinal, light mode):
+     low recedes into the paper, peak gloom goes black-violet. */
+  --gloom-1: #aca0e4;
+  --gloom-2: #8b7cd3;
+  --gloom-3: #6a58bd;
+  --gloom-4: #4a3aa7;
+  --gloom-5: #2c2166;
+  --radius: 0;
+  --shadow: 5px 5px 0 var(--ink);
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "Courier New", monospace;
+  font-family: var(--font-serif);
 }
 
 * { box-sizing: border-box; }
@@ -50,7 +55,7 @@ body {
   white-space: nowrap;
 }
 
-/* ---------- animated sky ---------- */
+/* ---------- animated sky (ink rain on bone) ---------- */
 
 #sky-layer {
   position: fixed;
@@ -65,7 +70,7 @@ body {
   top: -12vh;
   width: 1px;
   height: 11vh;
-  background: linear-gradient(to bottom, transparent, rgba(150, 180, 220, 0.35));
+  background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.35));
   animation: fall linear infinite;
 }
 
@@ -79,8 +84,8 @@ body {
   left: -40vw;
   width: 180vw;
   height: 55vh;
-  background: radial-gradient(ellipse at 30% 40%, rgba(120, 130, 150, 0.10), transparent 60%),
-              radial-gradient(ellipse at 70% 30%, rgba(120, 130, 150, 0.08), transparent 55%);
+  background: radial-gradient(ellipse at 30% 40%, rgba(10, 10, 10, 0.07), transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(44, 33, 102, 0.06), transparent 55%);
   animation: drift 60s ease-in-out infinite alternate;
 }
 
@@ -111,9 +116,10 @@ body {
 }
 
 .brand {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
   margin: 0;
 }
 
@@ -126,15 +132,18 @@ body {
 }
 
 .chip {
-  border: 1px solid var(--hairline);
+  border: 2px solid var(--rule);
   background: var(--surface-1);
-  color: var(--text-secondary);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 13px;
-  font-family: inherit;
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   cursor: pointer;
   white-space: nowrap;
+  box-shadow: 3px 3px 0 var(--ink);
 }
 
 .chip-loc {
@@ -143,11 +152,15 @@ body {
   max-width: 52vw;
 }
 
-.chip:active { background: var(--surface-2); }
+.chip:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
 
 .status {
   color: var(--text-muted);
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
   text-align: center;
   padding: 12px 0;
 }
@@ -156,10 +169,11 @@ body {
 
 .card {
   background: var(--surface-1);
-  border: 1px solid var(--hairline);
+  border: 2px solid var(--rule);
   border-radius: var(--radius);
   padding: 16px;
-  margin: 12px 0;
+  margin: 16px 0;
+  box-shadow: var(--shadow);
 }
 
 .card-head {
@@ -170,22 +184,26 @@ body {
 }
 
 .card h2 {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin: 0;
 }
 
 .card-label {
   margin: 0 0 4px;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
 }
 
 .card-sub {
   margin: 6px 0 12px;
   font-size: 13px;
+  font-style: italic;
   line-height: 1.45;
   color: var(--text-muted);
 }
@@ -199,15 +217,16 @@ body {
 
 .hero-kicker {
   margin: 0;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   color: var(--text-muted);
 }
 
 .hero-temp {
-  font-size: 84px;
-  font-weight: 600;
+  font-size: 88px;
+  font-weight: 700;
   line-height: 1.05;
   margin: 4px 0 0;
 }
@@ -215,19 +234,21 @@ body {
 .hero-deg {
   font-size: 42px;
   font-weight: 400;
-  vertical-align: 26px;
+  vertical-align: 28px;
   color: var(--text-secondary);
 }
 
 .hero-cond {
   margin: 6px 0 0;
   font-size: 17px;
+  font-style: italic;
   color: var(--text-secondary);
 }
 
 .hero-meta {
   margin-top: 8px;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
   color: var(--text-muted);
 }
 
@@ -236,71 +257,76 @@ body {
 /* ---------- buttons ---------- */
 
 .btn {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius);
   padding: 11px 16px;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 2px solid var(--rule);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
 }
 
 .btn-primary {
-  background: var(--accent-deep);
-  color: #ffffff;
+  background: var(--ink);
+  color: var(--surface-1);
 }
-
-.btn-primary:active { background: var(--accent); }
 
 .btn-ghost {
-  background: transparent;
-  color: var(--text-secondary);
-  border-color: var(--hairline);
+  background: var(--surface-1);
+  color: var(--ink);
 }
-
-.btn-ghost:active { background: var(--surface-2); }
 
 .btn-block {
   display: block;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 /* ---------- prompt card ---------- */
 
-.prompt-card { border-color: rgba(57, 135, 229, 0.35); }
+.prompt-card { background: #e9e5f6; }
 
 .prompt-title {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .prompt-body {
-  margin: 6px 0 12px;
+  margin: 6px 0 14px;
   font-size: 14px;
   line-height: 1.5;
   color: var(--text-secondary);
 }
 
-.prompt-actions { display: flex; gap: 8px; }
+.prompt-actions { display: flex; gap: 12px; }
 
 /* ---------- next dreary day ---------- */
 
 .next-day {
   margin: 0;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .next-detail {
-  margin: 4px 0 14px;
+  margin: 4px 0 16px;
   font-size: 14px;
   line-height: 1.5;
   color: var(--text-secondary);
 }
 
-.next-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.next-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
 /* ---------- calendar grid ---------- */
 
@@ -308,31 +334,33 @@ body {
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 5px;
 }
 
 .cal-weekdays {
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-family: var(--font-mono);
   font-size: 11px;
+  text-transform: uppercase;
   color: var(--text-muted);
   text-align: center;
 }
 
 .cal-cell {
   aspect-ratio: 1;
-  border-radius: 10px;
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1px;
+  font-family: var(--font-mono);
   font-size: 13px;
-  border: 1px solid transparent;
-  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  background: var(--surface-1);
   color: var(--text-secondary);
   position: relative;
   cursor: pointer;
-  font-family: inherit;
   padding: 0;
 }
 
@@ -340,16 +368,17 @@ body {
 
 .cal-cell.is-empty {
   background: transparent;
+  border: none;
   cursor: default;
 }
 
 .cal-cell.is-beyond {
   background: transparent;
-  border: 1px dashed var(--hairline);
+  border: 1px dashed rgba(10, 10, 10, 0.35);
   color: var(--text-muted);
 }
 
-.cal-cell.is-today { outline: 2px solid var(--text-secondary); outline-offset: 1px; }
+.cal-cell.is-today { border-width: 3px; }
 
 .cal-cell .cal-glyph {
   font-size: 10px;
@@ -360,20 +389,22 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .cal-scale-label {
+  font-family: var(--font-mono);
   font-size: 11px;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
 .cal-scale-steps {
   flex: 1;
-  height: 8px;
-  border-radius: 4px;
+  height: 10px;
+  border: 1px solid var(--rule);
   background: linear-gradient(to right,
-    var(--surface-2), var(--gloom-1), var(--gloom-2),
+    var(--surface-1), var(--gloom-1), var(--gloom-2),
     var(--gloom-3), var(--gloom-4), var(--gloom-5));
 }
 
@@ -390,15 +421,17 @@ body {
   align-items: center;
   gap: 12px;
   padding: 10px 4px;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--rule);
   cursor: pointer;
 }
 
 .top-item:first-child { border-top: none; }
 
 .top-rank {
-  font-size: 13px;
-  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
   width: 16px;
   text-align: center;
   flex: none;
@@ -407,8 +440,8 @@ body {
 .top-main { flex: 1; min-width: 0; }
 
 .top-date {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -424,20 +457,23 @@ body {
 }
 
 .top-meter-track {
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(57, 135, 229, 0.18); /* lighter step of the same ramp as the fill */
+  display: block;
+  height: 8px;
+  border: 1px solid var(--rule);
+  background: var(--accent-wash); /* lighter step of the fill's own ramp */
   overflow: hidden;
 }
 
 .top-meter-fill {
+  display: block;
   height: 100%;
-  border-radius: 3px;
   background: var(--accent);
 }
 
 .top-score {
-  font-size: 11px;
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
   color: var(--text-muted);
   text-align: right;
   margin-top: 3px;
@@ -449,12 +485,15 @@ body {
 
 .chart svg { display: block; width: 100%; height: auto; }
 
+.chart svg text { font-family: var(--font-mono); }
+
 .chart .bar { cursor: pointer; }
 
 .chart-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
   margin-top: 12px;
 }
 
@@ -463,16 +502,17 @@ body {
   text-align: left;
   white-space: nowrap;
   padding: 7px 6px;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--rule);
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
 .chart-table thead th {
   border-top: none;
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 12px;
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
 }
 
 /* ---------- tooltip ---------- */
@@ -480,38 +520,44 @@ body {
 .tooltip {
   position: fixed;
   z-index: 30;
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  border-radius: 10px;
+  background: var(--surface-1);
+  border: 2px solid var(--rule);
   padding: 8px 10px;
+  font-family: var(--font-mono);
   font-size: 12px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--text-secondary);
   pointer-events: none;
-  max-width: 220px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  max-width: 240px;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
-.tooltip strong { color: var(--text-primary); }
+.tooltip strong { color: var(--ink); }
 
 /* ---------- search ---------- */
 
 .search-label {
   display: block;
   font-size: 13px;
+  font-style: italic;
   color: var(--text-muted);
   margin-bottom: 8px;
 }
 
 #search-input {
   width: 100%;
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  border-radius: 10px;
-  color: var(--text-primary);
-  font-family: inherit;
+  background: var(--surface-1);
+  border: 2px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--font-mono);
   font-size: 15px;
   padding: 10px 12px;
+}
+
+#search-input:focus {
+  outline: none;
+  box-shadow: 3px 3px 0 var(--ink);
 }
 
 .search-results {
@@ -526,15 +572,15 @@ body {
   text-align: left;
   background: transparent;
   border: none;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid var(--rule);
   color: var(--text-secondary);
-  font-family: inherit;
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
   padding: 10px 4px;
   cursor: pointer;
 }
 
-#use-gps { margin-top: 10px; }
+#use-gps { margin-top: 12px; }
 
 /* ---------- sheet ---------- */
 
@@ -542,7 +588,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(6, 8, 12, 0.6);
+  background: rgba(10, 10, 10, 0.45);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -552,20 +598,23 @@ body {
   width: 100%;
   max-width: 480px;
   background: var(--surface-1);
-  border: 1px solid var(--hairline);
-  border-radius: 20px 20px 0 0;
+  border: 2px solid var(--rule);
+  border-bottom: none;
   padding: 20px 16px calc(16px + env(safe-area-inset-bottom));
 }
 
 .sheet-title {
   margin: 0;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .sheet-sub {
   margin: 4px 0 14px;
   font-size: 13px;
+  font-style: italic;
   color: var(--text-muted);
 }
 
@@ -574,6 +623,7 @@ body {
 .footer {
   text-align: center;
   font-size: 12px;
+  font-style: italic;
   color: var(--text-muted);
   padding: 16px 0 4px;
 }
