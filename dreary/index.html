@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0f14">
+  <meta name="description" content="Dreary — the weather app that celebrates rain, drizzle, and gloriously grey skies.">
+  <title>Dreary — celebrate the gloom</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="sky-layer" aria-hidden="true"></div>
+
+  <main class="app">
+    <header class="topbar">
+      <h1 class="brand">Dreary<span class="brand-drop" aria-hidden="true">☂</span></h1>
+      <div class="topbar-actions">
+        <button id="unit-toggle" class="chip" aria-label="Switch temperature units">°F</button>
+        <button id="location-btn" class="chip chip-loc">
+          <span aria-hidden="true">📍</span> <span id="location-name">Locating…</span>
+        </button>
+      </div>
+    </header>
+
+    <section id="search-panel" class="card" hidden>
+      <label class="search-label" for="search-input">Where do you chase the rain?</label>
+      <input id="search-input" type="search" placeholder="Search a city…" autocomplete="off">
+      <ul id="search-results" class="search-results"></ul>
+      <button id="use-gps" class="btn btn-ghost">Use my location</button>
+    </section>
+
+    <p id="status" class="status">Reading the clouds…</p>
+
+    <section id="hero" hidden>
+      <p class="hero-kicker">Right now</p>
+      <div class="hero-temp"><span id="current-temp">--</span><span class="hero-deg" id="current-deg">°</span></div>
+      <p class="hero-cond" id="hero-cond"></p>
+      <div class="hero-meta">
+        <span id="meta-feels"></span>
+        <span class="dotsep" aria-hidden="true">·</span>
+        <span id="meta-cloud"></span>
+        <span class="dotsep" aria-hidden="true">·</span>
+        <span id="meta-humidity"></span>
+      </div>
+    </section>
+
+    <section id="prompt-card" class="card prompt-card" hidden>
+      <p class="prompt-title" id="prompt-title"></p>
+      <p class="prompt-body" id="prompt-body"></p>
+      <div class="prompt-actions">
+        <button id="prompt-yes" class="btn btn-primary"></button>
+        <button id="prompt-no" class="btn btn-ghost">Not now</button>
+      </div>
+    </section>
+
+    <section id="next-dreary" class="card" hidden>
+      <p class="card-label">Next dreary day</p>
+      <p class="next-day" id="next-day-name">—</p>
+      <p class="next-detail" id="next-day-detail"></p>
+      <div class="next-actions">
+        <button id="add-calendar" class="btn btn-primary">Add to calendar</button>
+        <button id="notify-btn" class="btn btn-ghost">Remind me</button>
+      </div>
+    </section>
+
+    <section id="month-card" class="card" hidden>
+      <div class="card-head">
+        <h2>The month ahead</h2>
+      </div>
+      <p class="card-sub">Dreariness outlook. Forecasts reach 16 days out — beyond that, the clouds keep their secrets.</p>
+      <div id="cal-weekdays" class="cal-weekdays" aria-hidden="true"></div>
+      <div id="cal-grid" class="cal-grid" role="grid" aria-label="Dreariness calendar for the next month"></div>
+      <div class="cal-scale" aria-hidden="true">
+        <span class="cal-scale-label">bright</span>
+        <span class="cal-scale-steps"></span>
+        <span class="cal-scale-label">peak gloom</span>
+      </div>
+    </section>
+
+    <section id="top-card" class="card" hidden>
+      <div class="card-head">
+        <h2>Rainiest days ahead</h2>
+      </div>
+      <p class="card-sub">The forecast's finest gloom, ranked. Tap one to put it on your calendar.</p>
+      <ol id="top-list" class="top-list"></ol>
+    </section>
+
+    <section id="chart-card" class="card" hidden>
+      <div class="card-head">
+        <h2>Precipitation, next 16 days</h2>
+        <button id="table-toggle" class="chip">Table</button>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div id="chart-table-wrap" hidden>
+        <table id="chart-table" class="chart-table">
+          <caption class="visually-hidden">Daily precipitation forecast for the next 16 days</caption>
+          <thead>
+            <tr><th scope="col">Day</th><th scope="col">Precip</th><th scope="col">Chance</th><th scope="col">Clouds</th><th scope="col">Dreariness</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Weather by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a>. Made for people who love a grey sky.</p>
+    </footer>
+  </main>
+
+  <div id="tooltip" class="tooltip" role="status" hidden></div>
+
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <p class="sheet-title" id="sheet-title">Add to calendar</p>
+      <p class="sheet-sub" id="sheet-sub"></p>
+      <button id="sheet-ics" class="btn btn-primary btn-block">Apple / Outlook (.ics)</button>
+      <button id="sheet-google" class="btn btn-ghost btn-block">Google Calendar</button>
+      <button id="sheet-close" class="btn btn-ghost btn-block">Cancel</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

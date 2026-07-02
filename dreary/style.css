@@ -1,0 +1,581 @@
+/* Dreary — a dark, cozy rain theme.
+   Chart colors validated (dataviz six-checks) against surface #14161c. */
+
+:root {
+  --page:           #0d0f14;
+  --surface-1:      #14161c;
+  --surface-2:      #1a1d26;
+  --text-primary:   #f4f4f2;
+  --text-secondary: #b9bec9;
+  --text-muted:     #8b909b;
+  --hairline:       rgba(255, 255, 255, 0.08);
+  --gridline:       rgba(255, 255, 255, 0.07);
+  --baseline:       #383d47;
+  --accent:         #3987e5;       /* series hue, validated on dark */
+  --accent-deep:    #1c5cab;
+  --accent-wash:    rgba(57, 135, 229, 0.14);
+  /* Sequential dreariness ramp (validated ordinal, dark mode):
+     low recedes into the surface, peak gloom glows. */
+  --gloom-1: #184f95;
+  --gloom-2: #256abf;
+  --gloom-3: #3987e5;
+  --gloom-4: #6da7ec;
+  --gloom-5: #b7d3f6;
+  --radius: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--page);
+  color: var(--text-primary);
+  min-height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- animated sky ---------- */
+
+#sky-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.drop {
+  position: absolute;
+  top: -12vh;
+  width: 1px;
+  height: 11vh;
+  background: linear-gradient(to bottom, transparent, rgba(150, 180, 220, 0.35));
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(115vh); }
+}
+
+.cloudband {
+  position: absolute;
+  top: -20vh;
+  left: -40vw;
+  width: 180vw;
+  height: 55vh;
+  background: radial-gradient(ellipse at 30% 40%, rgba(120, 130, 150, 0.10), transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(120, 130, 150, 0.08), transparent 55%);
+  animation: drift 60s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  to { transform: translateX(8vw); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drop, .cloudband { animation: none; }
+}
+
+/* ---------- layout ---------- */
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: max(12px, env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0 4px;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.brand-drop { margin-left: 4px; }
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chip {
+  border: 1px solid var(--hairline);
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip-loc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 52vw;
+}
+
+.chip:active { background: var(--surface-2); }
+
+.status {
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.card-sub {
+  margin: 6px 0 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+/* ---------- hero ---------- */
+
+#hero {
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.hero-kicker {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.hero-temp {
+  font-size: 84px;
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 4px 0 0;
+}
+
+.hero-deg {
+  font-size: 42px;
+  font-weight: 400;
+  vertical-align: 26px;
+  color: var(--text-secondary);
+}
+
+.hero-cond {
+  margin: 6px 0 0;
+  font-size: 17px;
+  color: var(--text-secondary);
+}
+
+.hero-meta {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.dotsep { margin: 0 6px; }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent-deep);
+  color: #ffffff;
+}
+
+.btn-primary:active { background: var(--accent); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--hairline);
+}
+
+.btn-ghost:active { background: var(--surface-2); }
+
+.btn-block {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ---------- prompt card ---------- */
+
+.prompt-card { border-color: rgba(57, 135, 229, 0.35); }
+
+.prompt-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.prompt-body {
+  margin: 6px 0 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.prompt-actions { display: flex; gap: 8px; }
+
+/* ---------- next dreary day ---------- */
+
+.next-day {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.next-detail {
+  margin: 4px 0 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.next-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- calendar grid ---------- */
+
+.cal-weekdays,
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-weekdays {
+  margin-bottom: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  position: relative;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.cal-cell:disabled { cursor: default; }
+
+.cal-cell.is-empty {
+  background: transparent;
+  cursor: default;
+}
+
+.cal-cell.is-beyond {
+  background: transparent;
+  border: 1px dashed var(--hairline);
+  color: var(--text-muted);
+}
+
+.cal-cell.is-today { outline: 2px solid var(--text-secondary); outline-offset: 1px; }
+
+.cal-cell .cal-glyph {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.cal-scale {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.cal-scale-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.cal-scale-steps {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right,
+    var(--surface-2), var(--gloom-1), var(--gloom-2),
+    var(--gloom-3), var(--gloom-4), var(--gloom-5));
+}
+
+/* ---------- top dreary days list ---------- */
+
+.top-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.top-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-top: 1px solid var(--hairline);
+  cursor: pointer;
+}
+
+.top-item:first-child { border-top: none; }
+
+.top-rank {
+  font-size: 13px;
+  color: var(--text-muted);
+  width: 16px;
+  text-align: center;
+  flex: none;
+}
+
+.top-main { flex: 1; min-width: 0; }
+
+.top-date {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.top-detail {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.top-meter {
+  flex: none;
+  width: 86px;
+}
+
+.top-meter-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(57, 135, 229, 0.18); /* lighter step of the same ramp as the fill */
+  overflow: hidden;
+}
+
+.top-meter-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+.top-score {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 3px;
+}
+
+/* ---------- chart ---------- */
+
+.chart { margin-top: 12px; }
+
+.chart svg { display: block; width: 100%; height: auto; }
+
+.chart .bar { cursor: pointer; }
+
+.chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.chart-table th,
+.chart-table td {
+  text-align: left;
+  white-space: nowrap;
+  padding: 7px 6px;
+  border-top: 1px solid var(--hairline);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-table thead th {
+  border-top: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+/* ---------- tooltip ---------- */
+
+.tooltip {
+  position: fixed;
+  z-index: 30;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  pointer-events: none;
+  max-width: 220px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.tooltip strong { color: var(--text-primary); }
+
+/* ---------- search ---------- */
+
+.search-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+#search-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+}
+
+.search-results {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+
+.search-results button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--hairline);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 4px;
+  cursor: pointer;
+}
+
+#use-gps { margin-top: 10px; }
+
+/* ---------- sheet ---------- */
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(6, 8, 12, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px calc(16px + env(safe-area-inset-bottom));
+}
+
+.sheet-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sheet-sub {
+  margin: 4px 0 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 16px 0 4px;
+}
+
+.footer a { color: var(--text-secondary); }
